@@ -1,13 +1,9 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-class HomeButton extends Component {
-  render() {
-    return (
-      <div>
-        <a className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</a>
-      </div>
-    )
-  }
-}
+const HomeButton = (props) => (
+  <div>
+    <a className="close-search" onClick={() => null}>Close</a>
+  </div>
+);
 
 export default HomeButton
