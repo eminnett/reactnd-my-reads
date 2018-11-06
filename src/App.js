@@ -4,7 +4,8 @@ import HomePage from './pages/Home'
 import SearchPage from './pages/Search'
 import './App.css'
 
-// TODO: Refactor the flow of data so the correct components are passing properties down to their children.
+// TODO: Use stateless components where possible.
+// TODO: Add prop type definitions to the components.
 // TODO: Implement the ability to change the shelf a book belongs to.
 // TODO: Refactor the routing so the search and home buttons work.
 // TODO: Implement the API integration so books can be loaded dynamically.
@@ -19,7 +20,50 @@ class BooksApp extends React.Component {
      * pages, as well as provide a good URL they can bookmark and share.
      */
     showSearchPage: false,
-    shelves: ['Currently Reading', 'Want to Read', 'Read']
+    shelves: new Map([
+      [{id:'currentlyReading', name:'Currently Reading'}, [
+        {
+          id: 1,
+          title:'To Kill a Mockingbird 1',
+          author:'Harper Lee 1',
+          imageUrl: "http://books.google.com/books/content?id=PGR2AwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73-GnPVEyb7MOCxDzOYF1PTQRuf6nCss9LMNOSWBpxBrz8Pm2_mFtWMMg_Y1dx92HT7cUoQBeSWjs3oEztBVhUeDFQX6-tWlWz1-feexS0mlJPjotcwFqAg6hBYDXuK_bkyHD-y&source=gbs_api"
+        },
+        {
+          id: 2,
+          title:'To Kill a Mockingbird 2',
+          author:'Harper Lee 2',
+          imageUrl: "http://books.google.com/books/content?id=PGR2AwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73-GnPVEyb7MOCxDzOYF1PTQRuf6nCss9LMNOSWBpxBrz8Pm2_mFtWMMg_Y1dx92HT7cUoQBeSWjs3oEztBVhUeDFQX6-tWlWz1-feexS0mlJPjotcwFqAg6hBYDXuK_bkyHD-y&source=gbs_api"
+        }
+      ]],
+      [{id:'wantToRead', name:'Want to Read'}, [
+        {
+          id: 3,
+          title:'To Kill a Mockingbird 3',
+          author:'Harper Lee 3',
+          imageUrl: "http://books.google.com/books/content?id=PGR2AwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73-GnPVEyb7MOCxDzOYF1PTQRuf6nCss9LMNOSWBpxBrz8Pm2_mFtWMMg_Y1dx92HT7cUoQBeSWjs3oEztBVhUeDFQX6-tWlWz1-feexS0mlJPjotcwFqAg6hBYDXuK_bkyHD-y&source=gbs_api"
+        },
+        {
+          id: 4,
+          title:'To Kill a Mockingbird 4',
+          author:'Harper Lee 4',
+          imageUrl: "http://books.google.com/books/content?id=PGR2AwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73-GnPVEyb7MOCxDzOYF1PTQRuf6nCss9LMNOSWBpxBrz8Pm2_mFtWMMg_Y1dx92HT7cUoQBeSWjs3oEztBVhUeDFQX6-tWlWz1-feexS0mlJPjotcwFqAg6hBYDXuK_bkyHD-y&source=gbs_api"
+        },
+        {
+          id: 5,
+          title:'To Kill a Mockingbird 5',
+          author:'Harper Lee 5',
+          imageUrl: "http://books.google.com/books/content?id=PGR2AwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73-GnPVEyb7MOCxDzOYF1PTQRuf6nCss9LMNOSWBpxBrz8Pm2_mFtWMMg_Y1dx92HT7cUoQBeSWjs3oEztBVhUeDFQX6-tWlWz1-feexS0mlJPjotcwFqAg6hBYDXuK_bkyHD-y&source=gbs_api"
+        }
+      ]],
+      [{id:'read', name:'Read'}, [
+        {
+          id: 6,
+          title:'To Kill a Mockingbird 6',
+          author:'Harper Lee 6',
+          imageUrl: "http://books.google.com/books/content?id=PGR2AwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73-GnPVEyb7MOCxDzOYF1PTQRuf6nCss9LMNOSWBpxBrz8Pm2_mFtWMMg_Y1dx92HT7cUoQBeSWjs3oEztBVhUeDFQX6-tWlWz1-feexS0mlJPjotcwFqAg6hBYDXuK_bkyHD-y&source=gbs_api"
+        }
+      ]]
+    ])
   }
 
   render() {
