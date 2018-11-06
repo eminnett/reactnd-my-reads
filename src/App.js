@@ -4,7 +4,6 @@ import HomePage from './pages/Home'
 import SearchPage from './pages/Search'
 import './App.css'
 
-// TODO: Add props to the components so the content is no longer hard coded in the JSX blocks.
 // TODO: Refactor the flow of data so the correct components are passing properties down to their children.
 // TODO: Implement the ability to change the shelf a book belongs to.
 // TODO: Refactor the routing so the search and home buttons work.
@@ -19,7 +18,8 @@ class BooksApp extends React.Component {
      * users can use the browser's back and forward buttons to navigate between
      * pages, as well as provide a good URL they can bookmark and share.
      */
-    showSearchPage: false
+    showSearchPage: false,
+    shelves: ['Currently Reading', 'Want to Read', 'Read']
   }
 
   render() {
@@ -28,7 +28,10 @@ class BooksApp extends React.Component {
         {this.state.showSearchPage ? (
           <SearchPage />
         ) : (
-          <HomePage />
+          <HomePage
+            pageTitle='MyReads'
+            shelves={this.state.shelves}
+          />
         )}
       </div>
     )

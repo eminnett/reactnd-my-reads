@@ -4,12 +4,15 @@ class ShelfSelector extends Component {
   render() {
     return (
       <div className="book-shelf-changer">
-        <select>
+        <select defaultValue={this.props.selectedShelf || 'None'}>
           <option value="move" disabled>Move to...</option>
-          <option value="currentlyReading">Currently Reading</option>
-          <option value="wantToRead">Want to Read</option>
-          <option value="read">Read</option>
-          <option value="none">None</option>
+          {this.props.shelves.map((shelf) => (
+            <option
+              key={shelf}
+              value={shelf}
+              >{shelf}</option>
+          ))}
+          <option value="None">None</option>
         </select>
       </div>
     )
