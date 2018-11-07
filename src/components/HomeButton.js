@@ -1,8 +1,9 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const HomeButton = (props) => (
   <div>
-    <a className="close-search" onClick={() => null}>Close</a>
+    <Link className="close-search" to='/'>Close</Link>
   </div>
 );
 
