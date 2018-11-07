@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 const ShelfSelector = (props) => (
   <div className="book-shelf-changer">
     <select
-      defaultValue={props.selectedShelf ? props.selectedShelf.id : 'none'}
+      defaultValue={props.selectedShelfId || 'none'}
       onChange={(e) => props.updateShelf(props.bookId, e.target.value)}
       >
       <option value="move" disabled>Move to...</option>
@@ -21,7 +21,7 @@ const ShelfSelector = (props) => (
 
 ShelfSelector.propTypes = {
   bookId: PropTypes.string.isRequired,
-  selectedShelf: PropTypes.object.isRequired,
+  selectedShelf: PropTypes.string,
   shelves: PropTypes.arrayOf(PropTypes.object).isRequired,
   updateShelf: PropTypes.func.isRequired
 }

@@ -14,7 +14,7 @@ const Shelf = (props) => (
               title={book.title}
               author={book.author}
               imageUrl={book.imageUrl}
-              currentShelf={props.shelf}
+              currentShelfId={props.shelf.id}
               shelves={props.shelves}
               updateShelf={props.updateShelf}
             />

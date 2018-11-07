@@ -9,7 +9,7 @@ const Book = (props) => (
       <ShelfSelector
         bookId={props.id}
         shelves={props.shelves}
-        selectedShelf={props.currentShelf}
+        selectedShelfId={props.currentShelfId}
         updateShelf={props.updateShelf}
       />
     </div>
@@ -22,7 +22,7 @@ Book.propTypes = {
   id: PropTypes.string.isRequired,
   imageUrl: PropTypes.string.isRequired,
   shelves: PropTypes.arrayOf(PropTypes.object).isRequired,
-  currentShelf: PropTypes.object,
+  currentShelfId: PropTypes.string,
   title: PropTypes.string.isRequired,
   author: PropTypes.string.isRequired,
   updateShelf: PropTypes.func.isRequired
