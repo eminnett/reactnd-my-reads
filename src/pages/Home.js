@@ -1,8 +1,14 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import Shelf from '../components/Shelf'
 import SearchButton from '../components/SearchButton'
 
 class HomePage extends Component {
+  static PropTypes = {
+    shelves: PropTypes.instanceOf(Map).isRequired,
+    pageTitle: PropTypes.string.isRequired
+  }
+
   render() {
     const shelves = Array.from(this.props.shelves.keys());
     const shelfElements = [];

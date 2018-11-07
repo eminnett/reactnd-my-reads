@@ -4,7 +4,6 @@ import HomePage from './pages/Home'
 import SearchPage from './pages/Search'
 import './App.css'
 
-// TODO: Add prop type definitions to the components.
 // TODO: Implement the ability to change the shelf a book belongs to.
 // TODO: Refactor the routing so the search and home buttons work.
 // TODO: Implement the API integration so books can be loaded dynamically.

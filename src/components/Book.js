@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import ShelfSelector from './ShelfSelector'
 
 const Book = (props) => (
@@ -14,5 +15,13 @@ const Book = (props) => (
     <div className="book-authors">{props.author}</div>
   </div>
 );
+
+ShelfSelector.PropTypes = {
+  imageUrl: PropTypes.string.isRequired,
+  shelves: PropTypes.arrayOf(PropTypes.object).isRequired,
+  currentShelf: PropTypes.object,
+  title: PropTypes.string.isRequired,
+  author: PropTypes.string.isRequired,
+}
 
 export default Book
