@@ -10,11 +10,13 @@ const Shelf = (props) => (
         {props.books.map((book) => (
           <li key={book.id}>
             <Book
+              id={book.id}
               title={book.title}
               author={book.author}
               imageUrl={book.imageUrl}
               currentShelf={props.shelf}
               shelves={props.shelves}
+              updateShelf={props.updateShelf}
             />
           </li>
         ))}
@@ -23,9 +25,10 @@ const Shelf = (props) => (
   </div>
 );
 
-Shelf.PropTypes = {
+Shelf.propTypes = {
   shelf: PropTypes.object.isRequired,
-  books: PropTypes.arrayOf(PropTypes.object).isRequired
+  books: PropTypes.arrayOf(PropTypes.object).isRequired,
+  updateShelf: PropTypes.func.isRequired
 }
 
 export default Shelf
