@@ -1,14 +1,12 @@
-import React from 'react'
-import { Route } from 'react-router-dom'
-import { debounce } from 'throttle-debounce'
-import * as BooksAPI from './BooksAPI'
-import HomePage from './pages/Home'
-import SearchPage from './pages/Search'
-import './App.css'
+import React from 'react';
+import { Route } from 'react-router-dom';
+import { debounce } from 'throttle-debounce';
+import * as BooksAPI from './BooksAPI';
+import HomePage from './pages/Home';
+import SearchPage from './pages/Search';
+import './App.css';
 
 // TODO: Review the rubric and double check that all the requirements have been met.
-
-window.BooksAPI = BooksAPI;
 
 class BooksApp extends React.Component {
   constructor(props) {
@@ -33,7 +31,7 @@ class BooksApp extends React.Component {
       }
       this.setState({ shelves: shelves });
     });
-  }
+  };
 
   buildBook = (data) => {
     // This is the only data we need to render the Book component so there is
@@ -44,8 +42,8 @@ class BooksApp extends React.Component {
       author: (data.authors ?  data.authors.join(', ') : ''),
       imageUrl: (data.imageLinks ? data.imageLinks.thumbnail : ''),
       shelfId: data.shelf
-    }
-  }
+    };
+  };
 
   handleShelfChange = (bookId, shelfId) => {
     let shelves = this.state.shelves;
@@ -53,7 +51,7 @@ class BooksApp extends React.Component {
     let book = null;
     // Search for the book in the shelves and remove it if it exists.
     for (let [shelf, books] of shelves) {
-      book = books.find((b) => b.id === bookId)
+      book = books.find((b) => b.id === bookId);
       if (book) {
         bookFound = true;
         shelves.set(shelf, books.filter((b) => b.id !== bookId));
@@ -75,7 +73,7 @@ class BooksApp extends React.Component {
     } else {
       this.setState({ shelves: shelves });
     }
-  }
+  };
 
   setShelf = (book, shelfId) => {
     let shelves = this.state.shelves;
@@ -89,7 +87,7 @@ class BooksApp extends React.Component {
       }
     }
     return shelves;
-  }
+  };
 
   performSearch = (query) => {
     // Submit a string with a space to avoid getting a 403 from the
@@ -111,11 +109,11 @@ class BooksApp extends React.Component {
       }
       this.setState({ searchResults: searchResults });
     });
-  }
+  };
 
   resetSearch = () => {
     this.setState({ searchResults: [] });
-  }
+  };
 
   render() {
     return (
@@ -138,7 +136,7 @@ class BooksApp extends React.Component {
         )} />
       </div>
     )
-  }
-}
+  };
+};
 
-export default BooksApp
+export default BooksApp;

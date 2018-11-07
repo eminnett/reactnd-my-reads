@@ -1,8 +1,8 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import HomeButton from '../components/HomeButton'
-import SearchField from '../components/SearchField'
-import Book from '../components/Book'
+import React from 'react';
+import PropTypes from 'prop-types';
+import HomeButton from '../components/HomeButton';
+import SearchField from '../components/SearchField';
+import Book from '../components/Book';
 
 const SearchPage = (props) => (
   <div className="search-books">
@@ -40,6 +40,6 @@ SearchPage.propTypes = {
   searchResults: PropTypes.arrayOf(PropTypes.object).isRequired,
   updateShelf: PropTypes.func.isRequired,
   shelves: PropTypes.arrayOf(PropTypes.object).isRequired
-}
+};
 
-export default SearchPage
+export default SearchPage;

@@ -1,5 +1,5 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
 
 const ShelfSelector = (props) => (
   <div className="book-shelf-changer">
@@ -24,6 +24,6 @@ ShelfSelector.propTypes = {
   selectedShelf: PropTypes.string,
   shelves: PropTypes.arrayOf(PropTypes.object).isRequired,
   updateShelf: PropTypes.func.isRequired
-}
+};
 
-export default ShelfSelector
+export default ShelfSelector;

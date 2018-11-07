@@ -1,14 +1,14 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import Shelf from '../components/Shelf'
-import SearchButton from '../components/SearchButton'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import Shelf from '../components/Shelf';
+import SearchButton from '../components/SearchButton';
 
 class HomePage extends Component {
   static propTypes = {
     shelves: PropTypes.instanceOf(Map).isRequired,
     pageTitle: PropTypes.string.isRequired,
     updateShelf: PropTypes.func.isRequired
-  }
+  };
 
   render() {
     const shelves = Array.from(this.props.shelves.keys());
@@ -26,7 +26,7 @@ class HomePage extends Component {
           books={books}
           updateShelf={updateShelf}
         />
-      )
+      );
     }
 
     return (
@@ -41,6 +41,6 @@ class HomePage extends Component {
       </div>
     )
   }
-}
+};
 
-export default HomePage
+export default HomePage;

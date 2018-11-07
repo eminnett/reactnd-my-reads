@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 const SearchButton = (props) => (
   <div className="open-search">
@@ -7,4 +7,4 @@ const SearchButton = (props) => (
   </div>
 );
 
-export default SearchButton
+export default SearchButton;

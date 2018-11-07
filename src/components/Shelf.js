@@ -1,6 +1,6 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import Book from './Book'
+import React from 'react';
+import PropTypes from 'prop-types';
+import Book from './Book';
 
 const Shelf = (props) => (
   <div className="bookshelf">
@@ -29,6 +29,6 @@ Shelf.propTypes = {
   shelf: PropTypes.object.isRequired,
   books: PropTypes.arrayOf(PropTypes.object).isRequired,
   updateShelf: PropTypes.func.isRequired
-}
+};
 
-export default Shelf
+export default Shelf;

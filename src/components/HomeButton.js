@@ -1,6 +1,6 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 const HomeButton = (props) => (
   <div>
@@ -14,6 +14,6 @@ const HomeButton = (props) => (
 
 HomeButton.propTypes = {
   resetSearch: PropTypes.func.isRequired
-}
+};
 
-export default HomeButton
+export default HomeButton;

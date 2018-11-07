@@ -1,5 +1,5 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
 
 const SearchField = (props) => (
   <div className="search-books-input-wrapper">
@@ -17,10 +17,10 @@ const SearchField = (props) => (
       onChange={(e) => props.performSearch(e.target.value)}
     />
   </div>
-)
+);
 
 SearchField.propTypes = {
   performSearch: PropTypes.func.isRequired
-}
+};
 
-export default SearchField
+export default SearchField;
