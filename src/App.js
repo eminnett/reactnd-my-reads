@@ -6,8 +6,6 @@ import HomePage from './pages/Home';
 import SearchPage from './pages/Search';
 import './App.css';
 
-// TODO: Review the rubric and double check that all the requirements have been met.
-
 class BooksApp extends React.Component {
   constructor(props) {
     super(props);
