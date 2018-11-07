@@ -1,16 +1,51 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
-// import * as BooksAPI from './BooksAPI'
+import * as BooksAPI from './BooksAPI'
 import HomePage from './pages/Home'
 import SearchPage from './pages/Search'
 import './App.css'
 
-// TODO: Implement the API integration so books can be loaded dynamically.
 // TODO: Implement the search behaviour.
 // TODO: Review the rubric and double check that all the requirements have been met.
 
+window.BooksAPI = BooksAPI;
+
 class BooksApp extends React.Component {
-  updateShelf = (bookId, shelfId) => {
+  constructor(props) {
+    super(props);
+    this.state = {
+      shelves: new Map([
+        [{id:'currentlyReading', name:'Currently Reading'}, []],
+        [{id:'wantToRead', name:'Want to Read'}, []],
+        [{id:'read', name:'Read'}, []]
+      ])
+    };
+    BooksAPI.getAll().then((response) => {
+      let shelves = this.state.shelves;
+      for (let bookData of response) {
+        for (let [shelf, books] of shelves) {
+          if (bookData.shelf === shelf.id) {
+            books.push(this.buildBook(bookData));
+            shelves.set(shelf, books);
+          }
+        }
+      }
+      this.setState({ shelves: shelves });
+    });
+  }
+
+  buildBook = (data) => {
+    // This is the only data we need to render the Book component so there is
+    // no need to store pass around more than this.
+    return {
+      id: data.id,
+      title: data.title,
+      author: data.authors.join(', '),
+      imageUrl: data.imageLinks.thumbnail
+    }
+  }
+
+  handleShelfChange = (bookId, shelfId) => {
     let shelves = this.state.shelves;
     let bookFound = false;
     let book = null;
@@ -20,71 +55,37 @@ class BooksApp extends React.Component {
       if (book) {
         bookFound = true;
         shelves.set(shelf, books.filter((b) => b.id !== bookId));
+        BooksAPI.update(book, 'none');
         break;
       }
     }
-
-    if (!bookFound) {
-      // Get the book from the API.
-    }
-
     // Add the book to the new shelf unless the new shelf is 'none'.
-    if (shelfId !== 'none' && bookFound) {
-      for (let [shelf, books] of shelves) {
-        if (shelfId === shelf.id) {
-          shelves[shelf] = books.push(book);
-          break;
-        }
+    if (shelfId !== 'none') {
+      if (bookFound) {
+        shelves = this.setShelf(book, shelfId);
+        this.setState({ shelves: shelves });
+      } else {
+        BooksAPI.get(book, bookId).then((response) => {
+          shelves = this.setShelf(this.buildBook(response), shelfId);
+          this.setState({ shelves: shelves });
+        });
       }
+    } else {
+      this.setState({ shelves: shelves });
     }
-    this.setState({ shelves: shelves });
   }
 
-  state = {
-    shelves: new Map([
-      [{id:'currentlyReading', name:'Currently Reading'}, [
-        {
-          id: '1',
-          title:'To Kill a Mockingbird 1',
-          author:'Harper Lee 1',
-          imageUrl: "http://books.google.com/books/content?id=PGR2AwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73-GnPVEyb7MOCxDzOYF1PTQRuf6nCss9LMNOSWBpxBrz8Pm2_mFtWMMg_Y1dx92HT7cUoQBeSWjs3oEztBVhUeDFQX6-tWlWz1-feexS0mlJPjotcwFqAg6hBYDXuK_bkyHD-y&source=gbs_api"
-        },
-        {
-          id: '2',
-          title:'To Kill a Mockingbird 2',
-          author:'Harper Lee 2',
-          imageUrl: "http://books.google.com/books/content?id=PGR2AwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73-GnPVEyb7MOCxDzOYF1PTQRuf6nCss9LMNOSWBpxBrz8Pm2_mFtWMMg_Y1dx92HT7cUoQBeSWjs3oEztBVhUeDFQX6-tWlWz1-feexS0mlJPjotcwFqAg6hBYDXuK_bkyHD-y&source=gbs_api"
-        }
-      ]],
-      [{id:'wantToRead', name:'Want to Read'}, [
-        {
-          id: '3',
-          title:'To Kill a Mockingbird 3',
-          author:'Harper Lee 3',
-          imageUrl: "http://books.google.com/books/content?id=PGR2AwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73-GnPVEyb7MOCxDzOYF1PTQRuf6nCss9LMNOSWBpxBrz8Pm2_mFtWMMg_Y1dx92HT7cUoQBeSWjs3oEztBVhUeDFQX6-tWlWz1-feexS0mlJPjotcwFqAg6hBYDXuK_bkyHD-y&source=gbs_api"
-        },
-        {
-          id: '4',
-          title:'To Kill a Mockingbird 4',
-          author:'Harper Lee 4',
-          imageUrl: "http://books.google.com/books/content?id=PGR2AwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73-GnPVEyb7MOCxDzOYF1PTQRuf6nCss9LMNOSWBpxBrz8Pm2_mFtWMMg_Y1dx92HT7cUoQBeSWjs3oEztBVhUeDFQX6-tWlWz1-feexS0mlJPjotcwFqAg6hBYDXuK_bkyHD-y&source=gbs_api"
-        },
-        {
-          id: '5',
-          title:'To Kill a Mockingbird 5',
-          author:'Harper Lee 5',
-          imageUrl: "http://books.google.com/books/content?id=PGR2AwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73-GnPVEyb7MOCxDzOYF1PTQRuf6nCss9LMNOSWBpxBrz8Pm2_mFtWMMg_Y1dx92HT7cUoQBeSWjs3oEztBVhUeDFQX6-tWlWz1-feexS0mlJPjotcwFqAg6hBYDXuK_bkyHD-y&source=gbs_api"
-        }
-      ]],
-      [{id:'read', name:'Read'}, [
-        {
-          id: '6',
-          title:'To Kill a Mockingbird 6',
-          author:'Harper Lee 6',
-          imageUrl: "http://books.google.com/books/content?id=PGR2AwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73-GnPVEyb7MOCxDzOYF1PTQRuf6nCss9LMNOSWBpxBrz8Pm2_mFtWMMg_Y1dx92HT7cUoQBeSWjs3oEztBVhUeDFQX6-tWlWz1-feexS0mlJPjotcwFqAg6hBYDXuK_bkyHD-y&source=gbs_api"
-        }
-      ]]
-    ])
+  setShelf = (book, shelfId) => {
+    let shelves = this.state.shelves;
+    for (let [shelf, books] of shelves) {
+      if (shelfId === shelf.id) {
+        books.push(book);
+        shelves.set(shelf, books);
+        BooksAPI.update(book, shelfId);
+        break;
+      }
+    }
+    return shelves;
   }
 
   render() {
@@ -94,12 +95,12 @@ class BooksApp extends React.Component {
           <HomePage
             pageTitle='MyReads'
             shelves={this.state.shelves}
-            updateShelf={this.updateShelf}
+            updateShelf={this.handleShelfChange}
           />
         )} />
         <Route path='/search' render={() => (
           <SearchPage
-            updateShelf={this.updateShelf}
+            updateShelf={this.handleShelfChange}
           />
         )} />
       </div>
