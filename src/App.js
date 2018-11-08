@@ -6,9 +6,6 @@ import HomePage from './pages/Home';
 import SearchPage from './pages/Search';
 import './App.css';
 
-// TODO: Refine the documentation.
-
-
 class BooksApp extends React.Component {
   state = {
     shelves: [{id:'currentlyReading', name:'Currently Reading'}, {id:'wantToRead', name:'Want to Read'}, {id:'read', name:'Read'}],

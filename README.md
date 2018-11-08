@@ -3,7 +3,7 @@
 #### React Nanodegree (Udacity)
 Project submission by Edward Minnett (ed@methodic.io).
 
-November 6th, 2018. (Revision 1)
+November 8th, 2018. (Revision 2)
 
 ----------
 
@@ -23,3 +23,12 @@ To run the application, clone the project to a local directory and execute the f
 * start the development server with `npm start`
 
 The application will then be available at `http://localhost:3000/`.
+
+## References
+
+The following sources were used as reference while working on this project:
+
+- https://reactjs.org/docs/
+- https://developer.mozilla.org/en-US/docs/
+- https://stackoverflow.com/
+- https://github.com/eminnett/reactnd-contacts-app
