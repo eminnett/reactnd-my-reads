@@ -6,17 +6,25 @@ import HomePage from './pages/Home';
 import SearchPage from './pages/Search';
 import './App.css';
 
+// TODO: Refactor the state so that the shelf and book data is flatter.
+// TODO: Refactor the code so that book objects are passed around instead of pieces of the book data.
+// TODO: Refactor event handler arrow functions.
+// TODO: Refactor the HomePage insto a stateless functional component.
+// TODO: Refactor search functionality out of the App and into the SearchPage component.
+// TODO: Refine the documentation.
+
+
 class BooksApp extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      shelves: new Map([
-        [{id:'currentlyReading', name:'Currently Reading'}, []],
-        [{id:'wantToRead', name:'Want to Read'}, []],
-        [{id:'read', name:'Read'}, []]
-      ]),
-      searchResults: []
-    };
+  state = {
+    shelves: new Map([
+      [{id:'currentlyReading', name:'Currently Reading'}, []],
+      [{id:'wantToRead', name:'Want to Read'}, []],
+      [{id:'read', name:'Read'}, []]
+    ]),
+    searchResults: []
+  };
+
+  componentDidMount() {
     BooksAPI.getAll().then((response) => {
       let shelves = this.state.shelves;
       for (let bookData of response) {
@@ -29,7 +37,7 @@ class BooksApp extends React.Component {
       }
       this.setState({ shelves: shelves });
     });
-  };
+  }
 
   buildBook = (data) => {
     // This is the only data we need to render the Book component so there is
