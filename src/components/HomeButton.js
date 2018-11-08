@@ -7,7 +7,7 @@ const HomeButton = (props) => (
     <Link
       className="close-search"
       to='/'
-      onClick={() => { props.resetSearch() }}
+      onClick={props.resetSearch}
     >Close</Link>
   </div>
 );

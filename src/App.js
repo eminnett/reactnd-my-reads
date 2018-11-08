@@ -6,7 +6,6 @@ import HomePage from './pages/Home';
 import SearchPage from './pages/Search';
 import './App.css';
 
-// TODO: Refactor event handler arrow functions.
 // TODO: Refactor search functionality out of the App and into the SearchPage component.
 // TODO: Refine the documentation.
 
@@ -39,7 +38,7 @@ class BooksApp extends React.Component {
     // This is the only data we need to render the Book component so there is
     // no need to store or pass around more than this. This method is used when
     // parsing API data which is why this method is here and not part of the
-    // Book Component.
+    // Book component.
     return {
       id: data.id,
       title: data.title,
@@ -49,7 +48,10 @@ class BooksApp extends React.Component {
     };
   };
 
-  updateShelf = (book, oldShelfId = 'none', newShelfId = 'none') => {
+  updateShelf = (event) => {
+    const book = JSON.parse(event.target.getAttribute('data-book'));
+    const oldShelfId = book.shelfId || 'none';
+    const newShelfId = event.target.value || 'none';
     let booksOnShelves = {};
 
     BooksAPI.update(book, newShelfId);
@@ -88,7 +90,7 @@ class BooksApp extends React.Component {
     });
   };
 
-  resetSearch = () => {
+  resetSearch = (_) => {
     this.setState({ searchResults: [] });
   };
 
