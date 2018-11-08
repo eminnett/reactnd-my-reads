@@ -6,42 +6,41 @@ import HomePage from './pages/Home';
 import SearchPage from './pages/Search';
 import './App.css';
 
-// TODO: Refactor the state so that the shelf and book data is flatter.
 // TODO: Refactor the code so that book objects are passed around instead of pieces of the book data.
 // TODO: Refactor event handler arrow functions.
-// TODO: Refactor the HomePage insto a stateless functional component.
 // TODO: Refactor search functionality out of the App and into the SearchPage component.
 // TODO: Refine the documentation.
 
 
 class BooksApp extends React.Component {
   state = {
-    shelves: new Map([
-      [{id:'currentlyReading', name:'Currently Reading'}, []],
-      [{id:'wantToRead', name:'Want to Read'}, []],
-      [{id:'read', name:'Read'}, []]
-    ]),
+    shelves: [{id:'currentlyReading', name:'Currently Reading'}, {id:'wantToRead', name:'Want to Read'}, {id:'read', name:'Read'}],
+    currentlyReading: [],
+    wantToRead: [],
+    read: [],
     searchResults: []
   };
 
   componentDidMount() {
     BooksAPI.getAll().then((response) => {
-      let shelves = this.state.shelves;
+      let booksOnShelves = {};
       for (let bookData of response) {
-        for (let [shelf, books] of shelves) {
-          if (bookData.shelf === shelf.id) {
-            books.push(this.buildBook(bookData));
-            shelves.set(shelf, books);
-          }
+        let book = this.bookObj(bookData);
+        if (bookData.shelf in booksOnShelves) {
+          booksOnShelves[bookData.shelf].push(book);
+        } else {
+          booksOnShelves[bookData.shelf] = [book];
         }
       }
-      this.setState({ shelves: shelves });
+      this.setState(booksOnShelves);
     });
   }
 
-  buildBook = (data) => {
+  bookObj = (data) => {
     // This is the only data we need to render the Book component so there is
-    // no need to store pass around more than this.
+    // no need to store or pass around more than this. This method is used when
+    // parsing API data which is why this method is here and not part of the
+    // Book Component.
     return {
       id: data.id,
       title: data.title,
@@ -52,47 +51,38 @@ class BooksApp extends React.Component {
   };
 
   handleShelfChange = (bookId, shelfId) => {
-    let shelves = this.state.shelves;
+    let booksOnShelf = {};
     let bookFound = false;
     let book = null;
     // Search for the book in the shelves and remove it if it exists.
-    for (let [shelf, books] of shelves) {
+    for (let shelf of this.state.shelves) {
+      let books = this.state[shelf.id];
       book = books.find((b) => b.id === bookId);
       if (book) {
         bookFound = true;
-        shelves.set(shelf, books.filter((b) => b.id !== bookId));
+        booksOnShelf[shelf.id] = books.filter((b) => b.id !== bookId);
         BooksAPI.update(book, 'none');
+        this.setState(booksOnShelf);
         break;
       }
     }
     // Add the book to the new shelf unless the new shelf is 'none'.
     if (shelfId !== 'none') {
+      booksOnShelf = {};
+      booksOnShelf[shelfId] = this.state[shelfId];
       if (bookFound) {
-        shelves = this.setShelf(book, shelfId);
-        this.setState({ shelves: shelves });
+        booksOnShelf[shelfId].push(book);
+        BooksAPI.update(book, shelfId);
+        this.setState(booksOnShelf);
       } else {
         BooksAPI.get(bookId).then((response) => {
-          shelves = this.setShelf(this.buildBook(response), shelfId);
-          this.setState({ shelves: shelves });
+          book = this.bookObj(response);
+          booksOnShelf[shelfId].push(book);
+          BooksAPI.update(book, shelfId);
+          this.setState(booksOnShelf);
         });
       }
-    } else {
-      this.setState({ shelves: shelves });
     }
-  };
-
-  setShelf = (book, shelfId) => {
-    let shelves = this.state.shelves;
-    for (let [shelf, books] of shelves) {
-      if (shelfId === shelf.id) {
-        book.shelfId = shelfId;
-        books.push(book);
-        shelves.set(shelf, books);
-        BooksAPI.update(book, shelfId);
-        break;
-      }
-    }
-    return shelves;
   };
 
   performSearch = (query) => {
@@ -104,13 +94,13 @@ class BooksApp extends React.Component {
       if (response && !response.error) {
         for (let bookData of response) {
           // Search for the book in the shelves and set the shelf if it is found.
-          for (let [shelf, books] of this.state.shelves) {
-            if (books.find((b) => b.id === bookData.id)) {
+          for (let shelf of this.state.shelves) {
+            if (this.state[shelf.id].find((b) => b.id === bookData.id)) {
               bookData.shelf = shelf.id;
               break;
             }
           }
-          searchResults.push(this.buildBook(bookData));
+          searchResults.push(this.bookObj(bookData));
         }
       }
       this.setState({ searchResults: searchResults });
@@ -127,7 +117,7 @@ class BooksApp extends React.Component {
         <Route exact path='/' render={() => (
           <HomePage
             pageTitle='MyReads'
-            shelves={this.state.shelves}
+            state={this.state}
             updateShelf={this.handleShelfChange}
           />
         )} />
@@ -137,7 +127,7 @@ class BooksApp extends React.Component {
             performSearch={debounce(100, this.performSearch)}
             resetSearch={this.resetSearch}
             searchResults={this.state.searchResults}
-            shelves={Array.from(this.state.shelves.keys())}
+            shelves={this.state.shelves}
           />
         )} />
       </div>
