@@ -9,12 +9,12 @@ const HomePage = (props) => (
       <h1>{props.pageTitle}</h1>
     </div>
     <div className="list-books-content">
-      {props.state.shelves.map((shelf) => (
+      {props.appState.shelves.map((shelf) => (
         <Shelf
           key={shelf.id}
           shelf={shelf}
-          shelves={props.state.shelves}
-          books={props.state[shelf.id]}
+          shelves={props.appState.shelves}
+          books={props.appState[shelf.id]}
           updateShelf={props.updateShelf}
         />
       ))}
@@ -26,7 +26,7 @@ const HomePage = (props) => (
 HomePage.propTypes = {
   pageTitle: PropTypes.string.isRequired,
   updateShelf: PropTypes.func.isRequired,
-  state: PropTypes.object.isRequired
+  appState: PropTypes.object.isRequired
 };
 
 export default HomePage;
