@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 const ShelfSelector = (props) => (
   <div className="book-shelf-changer">
     <select
-      defaultValue={props.selectedShelfId || 'none'}
-      onChange={(e) => props.updateShelf(props.bookId, e.target.value)}
+      defaultValue={props.book.shelfId || 'none'}
+      onChange={(e) => props.updateShelf(props.book, props.book.shelfId, e.target.value)}
       >
       <option value="move" disabled>Move to...</option>
       {props.shelves.map((shelf) => (
@@ -20,8 +20,7 @@ const ShelfSelector = (props) => (
 );
 
 ShelfSelector.propTypes = {
-  bookId: PropTypes.string.isRequired,
-  selectedShelf: PropTypes.string,
+  book: PropTypes.object.isRequired,
   shelves: PropTypes.arrayOf(PropTypes.object).isRequired,
   updateShelf: PropTypes.func.isRequired
 };

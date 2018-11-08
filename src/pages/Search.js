@@ -19,11 +19,7 @@ const SearchPage = (props) => (
         {props.searchResults.map((book) => (
           <li key={book.id}>
             <Book
-              id={book.id}
-              title={book.title}
-              author={book.author}
-              imageUrl={book.imageUrl}
-              currentShelfId={book.shelfId}
+              book={book}
               shelves={props.shelves}
               updateShelf={props.updateShelf}
             />

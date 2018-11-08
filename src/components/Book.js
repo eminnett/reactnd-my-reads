@@ -5,26 +5,21 @@ import ShelfSelector from './ShelfSelector';
 const Book = (props) => (
   <div className="book">
     <div className="book-top">
-      <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${props.imageUrl})` }}></div>
+      <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${props.book.imageUrl})` }}></div>
       <ShelfSelector
-        bookId={props.id}
+        book={props.book}
         shelves={props.shelves}
-        selectedShelfId={props.currentShelfId}
         updateShelf={props.updateShelf}
       />
     </div>
-    <div className="book-title">{props.title}</div>
-    <div className="book-authors">{props.author}</div>
+    <div className="book-title">{props.book.title}</div>
+    <div className="book-authors">{props.book.author}</div>
   </div>
 );
 
 Book.propTypes = {
-  id: PropTypes.string.isRequired,
-  imageUrl: PropTypes.string.isRequired,
+  book: PropTypes.object.isRequired,
   shelves: PropTypes.arrayOf(PropTypes.object).isRequired,
-  currentShelfId: PropTypes.string,
-  title: PropTypes.string.isRequired,
-  author: PropTypes.string.isRequired,
   updateShelf: PropTypes.func.isRequired
 };
 

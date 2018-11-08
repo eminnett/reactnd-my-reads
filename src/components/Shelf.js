@@ -10,11 +10,7 @@ const Shelf = (props) => (
         {props.books.map((book) => (
           <li key={book.id}>
             <Book
-              id={book.id}
-              title={book.title}
-              author={book.author}
-              imageUrl={book.imageUrl}
-              currentShelfId={props.shelf.id}
+              book={book}
               shelves={props.shelves}
               updateShelf={props.updateShelf}
             />

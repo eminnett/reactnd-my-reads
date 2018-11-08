@@ -6,7 +6,6 @@ import HomePage from './pages/Home';
 import SearchPage from './pages/Search';
 import './App.css';
 
-// TODO: Refactor the code so that book objects are passed around instead of pieces of the book data.
 // TODO: Refactor event handler arrow functions.
 // TODO: Refactor search functionality out of the App and into the SearchPage component.
 // TODO: Refine the documentation.
@@ -26,10 +25,10 @@ class BooksApp extends React.Component {
       let booksOnShelves = {};
       for (let bookData of response) {
         let book = this.bookObj(bookData);
-        if (bookData.shelf in booksOnShelves) {
-          booksOnShelves[bookData.shelf].push(book);
+        if (book.shelfId in booksOnShelves) {
+          booksOnShelves[book.shelfId].push(book);
         } else {
-          booksOnShelves[bookData.shelf] = [book];
+          booksOnShelves[book.shelfId] = [book];
         }
       }
       this.setState(booksOnShelves);
@@ -50,39 +49,21 @@ class BooksApp extends React.Component {
     };
   };
 
-  handleShelfChange = (bookId, shelfId) => {
-    let booksOnShelf = {};
-    let bookFound = false;
-    let book = null;
-    // Search for the book in the shelves and remove it if it exists.
-    for (let shelf of this.state.shelves) {
-      let books = this.state[shelf.id];
-      book = books.find((b) => b.id === bookId);
-      if (book) {
-        bookFound = true;
-        booksOnShelf[shelf.id] = books.filter((b) => b.id !== bookId);
-        BooksAPI.update(book, 'none');
-        this.setState(booksOnShelf);
-        break;
-      }
+  updateShelf = (book, oldShelfId = 'none', newShelfId = 'none') => {
+    let booksOnShelves = {};
+
+    BooksAPI.update(book, newShelfId);
+
+    if (oldShelfId !== 'none') {
+      booksOnShelves[oldShelfId] = this.state[oldShelfId].filter((b) => b.id !== book.id);
     }
-    // Add the book to the new shelf unless the new shelf is 'none'.
-    if (shelfId !== 'none') {
-      booksOnShelf = {};
-      booksOnShelf[shelfId] = this.state[shelfId];
-      if (bookFound) {
-        booksOnShelf[shelfId].push(book);
-        BooksAPI.update(book, shelfId);
-        this.setState(booksOnShelf);
-      } else {
-        BooksAPI.get(bookId).then((response) => {
-          book = this.bookObj(response);
-          booksOnShelf[shelfId].push(book);
-          BooksAPI.update(book, shelfId);
-          this.setState(booksOnShelf);
-        });
-      }
+
+    if (newShelfId !== 'none') {
+      booksOnShelves[newShelfId] = this.state[newShelfId];
+      booksOnShelves[newShelfId].push(book);
     }
+
+    this.setState(booksOnShelves);
   };
 
   performSearch = (query) => {
@@ -118,12 +99,12 @@ class BooksApp extends React.Component {
           <HomePage
             pageTitle='MyReads'
             state={this.state}
-            updateShelf={this.handleShelfChange}
+            updateShelf={this.updateShelf}
           />
         )} />
         <Route path='/search' render={() => (
           <SearchPage
-            updateShelf={this.handleShelfChange}
+            updateShelf={this.updateShelf}
             performSearch={debounce(100, this.performSearch)}
             resetSearch={this.resetSearch}
             searchResults={this.state.searchResults}
